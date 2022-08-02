@@ -1,0 +1,21 @@
+{% extends 'books/base.html' %}
+{% load static %}
+
+{% block title %}{{ author.first_name }} {{ author.last_name }}{% endblock title %}
+
+{% block content %}
+
+<div class="authors">
+	<h1 class="authors__header">{{ author.first_name }} {{ author.last_name }}</h1>
+	{% if books %}
+	<div class="books-items">
+		{% for book in books %}
+		{% include 'books/include/book.html' %}
+		{% endfor %}
+	</div>
+	{% else %}
+	{% include 'books/include/empty.html' %}
+	{% endif %}
+</div>
+
+{% endblock content %}

@@ -1,0 +1,13 @@
+{% extends 'books/base.html' %}
+{% load static %}
+
+{% block title %}{{ book.title }}{% endblock title %}
+
+{% block content %}
+
+<div class="books">
+	<h1 class="books__header">{{ book.title }}</h1>
+	{% include 'books/include/book.html' %}
+</div>
+
+{% endblock content %}

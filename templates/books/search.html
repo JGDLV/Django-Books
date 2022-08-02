@@ -1,0 +1,48 @@
+{% extends 'books/base.html' %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock title %}
+
+{% block content %}
+
+<div class="search">
+	<h1 class="search__header">{{ title }} &laquo;{{ request.GET.q }}&raquo;</h1>
+	{% if books or authors or genres %}
+	<div class="search-items">
+		{% if books %}
+		<div class="search__item">
+			<h3>Найдено в книгах ({{ books|length }}):</h3>
+			<ul class="list">
+				{% for item in books %}
+				<li><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></li>
+				{% endfor %}
+			</ul>
+		</div>
+		{% endif %}
+		{% if authors %}
+		<div class="search__item">
+			<h3>Найдено в авторах ({{ authors|length }}):</h3>
+			<ul class="list">
+				{% for item in authors %}
+				<li><a href="{{ item.get_absolute_url }}">{{ item.last_name }}, {{ item.first_name }}</a></li>
+				{% endfor %}
+			</ul>
+		</div>
+		{% endif %}
+		{% if genres %}
+		<div class="search__item">
+			<h3>Найдено в жанрах ({{ genres|length }}):</h3>
+			<ul class="list">
+				{% for item in genres %}
+				<li><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></li>
+				{% endfor %}
+			</ul>
+		</div>
+		{% endif %}
+	</div>
+	{% else %}
+	{% include 'books/include/empty.html' %}
+	{% endif %}
+</div>
+
+{% endblock content %}

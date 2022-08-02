@@ -1,0 +1,13 @@
+<div class="menu">
+	<ul class="menu-items">
+		<li class="menu__item{% if 'books' in request.resolver_match.url_name %} active{% endif %}">
+			<a class="menu__link" href="{% url 'books_list' %}">Книги</a>
+		</li>
+		<li class="menu__item{% if 'authors' in request.resolver_match.url_name %} active{% endif %}">
+			<a class="menu__link" href="{% url 'authors_list' %}">Авторы</a>
+		</li>
+		<li class="menu__item{% if 'genres' in request.resolver_match.url_name %} active{% endif %}">
+			<a class="menu__link" href="{% url 'genres_list' %}">Жанры</a>
+		</li>
+	</ul>
+</div>

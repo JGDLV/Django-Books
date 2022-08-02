@@ -1,0 +1,98 @@
+{% load static %}
+{% load comments %}
+
+<div class="books__item">
+	<div class="books__item-number">{{ book.id }}</div>
+	<div class="books__item-image-part">
+		{% if book.image %}
+		<a class="books__item-image-link" href="{{ book.image.url }}">
+			<img class="books__item-image" src="{{ book.image.url }}" alt="">
+		</a>
+		{% else %}
+		<img class="books__item-image" src="{% static 'img/empty.png' %}" alt="">
+		{% endif %}
+	</div>
+	<div class="books__item-text-part">
+		<ul class="books__item-genres">
+			{% for genre in book.genres.all %}
+			<li class="books__item-genre">
+				<a class="books__item-genre-link" href="{{ genre.get_absolute_url }}">{{ genre }}</a>
+			</li>
+			{% endfor %}
+		</ul>
+		{% if request.resolver_match.url_name != 'books_detail' %}
+		<a href="{{ book.get_absolute_url }}" class="books__item-title">{{ book.title }}</a>
+		{% endif %}
+		<ul class="books__item-authors">
+			{% for author in book.authors.all %}
+			<li class="books__item-author">
+				<a class="books__item-author-link" href="{{ author.get_absolute_url }}">{{ author.first_name }} {{ author.last_name }}</a>
+			</li>
+			{% endfor %}
+		</ul>
+		<div class="books__item-description">
+			{% if request.resolver_match.url_name == 'books_detail' %}
+			{{ book.description }}
+			{% else %}
+			{{ book.description|truncatewords:30 }}
+			{% endif %}
+		</div>
+		{% if book.isbn %}
+		<p class="book__isbn"><strong>ISBN:</strong> {{ book.isbn }}</p>
+		{% endif %}
+		{% if book.year %}
+		<p class="book__year"><strong>Год:</strong> {{ book.year }}</p>
+		{% endif %}
+		<div class="book__info">
+			{% if request.resolver_match.url_name != 'books_detail' %}
+			{% get_comments %}
+			{% endif %}
+			{% if user.is_authenticated %}
+			<div class="book__info-item">
+				<form class="book__info-form" method="post" action="{% url 'bookmarks_add' book.id %}">
+					{% csrf_token %}
+					<input type="checkbox" name="bookmark" {% if user in book.users.all %}checked{% endif %}>
+					<button class="book__info-form-button" type="submit"><i class="{% if user in book.users.all %}fas{% else %}far{% endif %} fa-bookmark"></i></button>
+				</form>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+{% if request.resolver_match.url_name == 'books_detail' %}
+
+{% if comments %}
+<div class="swiper-wrap">
+	<h3 class="book-comments__header">Комментарии&nbsp;({{ comments|length }}):</h3>
+	<div class="book-comments-swiper-scrollbar swiper-scrollbar"></div>
+	<div class="book-comments swiper-container">
+		<div class="swiper-wrapper">
+			{% for comment in comments %}
+			<div class="book__comment swiper-slide" id="comment-{{ comment.id }}">
+				<div class="book__comment-date">{{ comment.date }}</div>
+				<div class="book__comment-user">{{ comment.user }}</div>
+				<div class="book__comment-text">{{ comment.text }}</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+	{% if comments|length > 2 %}
+	<div class="book-comments-buttons">
+		<div class="swiper-button-prev book-comments-button-prev"></div>
+		<div class="swiper-button-next book-comments-button-next"></div>
+	</div>
+	{% endif %}
+</div>
+{% endif %}
+
+{% if user.is_authenticated %}
+<h3 class="book-comments__header">Добавить комментарий:</h3>
+<form class="book-comments-form" action="{% url 'comment_add' book.id %}" method="post">
+	{% csrf_token %}
+	{{ form.text }}
+	<button class="book-comments-form__button btn" type="submit">Отправить</button>
+</form>
+{% endif %}
+
+{% endif %}

@@ -1,0 +1,57 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" href="{% static 'img/book-stack.svg' %}" type="image/svg">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="{% static 'css/swiper-bundle.min.css' %}">
+	<link rel="stylesheet" href="{% static 'css/bootstrap-grid.css' %}">
+	<link rel="stylesheet" href="{% static 'css/libs.min.css' %}">
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+	<title>{% block title %}{% endblock title %}</title>
+</head>
+
+<body>
+	<div class="header">
+		<div class="container">
+			<div class="header__inner">
+				{% include 'books/include/logo.html' %}
+				{% include 'books/include/search.html' %}
+				<div class="header__right">
+					{% include 'books/include/login.html' %}
+					{% include 'books/include/menu.html' %}
+				</div>
+			</div>
+		</div>
+	</div>
+	<main class="content">
+		{% if 'accounts' not in request.path %}
+		{% include 'books/include/breadcrumbs.html' %}
+		{% endif %}
+		{% if 'profile' in request.path %}
+		{% include 'books/include/breadcrumbs.html' %}
+		{% endif %}
+		<div class="section">
+			<div class="container">
+				{% if 'accounts' in request.path and 'profile' not in request.path %}<div class="account-form-wrap">{% endif %}
+					{% block content %}
+					{% endblock content %}
+				{% if 'accounts' in request.path and 'profile' not in request.path %}</div>{% endif %}
+			</div>
+		</div>
+	</main>
+	{% include 'books/include/modals.html' %}
+	<div id="top" class="fas fa-arrow-up"></div>
+	<script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
+	<script src="{% static 'js/swiper-bundle.min.js' %}"></script>
+	<script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+	<script src="{% static 'js/scripts.js' %}"></script>
+</body>
+
+</html>

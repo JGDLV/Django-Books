@@ -1,0 +1,21 @@
+{% extends 'books/base.html' %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock title %}
+
+{% block content %}
+
+<div class="genres">
+	<h1 class="genres__header">{{ title }}</h1>
+	<ul class="genres-items list">
+		{% for genre in object_list %}
+		{% if genre.genres.all|length > 0 %}
+		<li class="genres__item" {% if genre.genres.all|length == 0 %}style="opacity: 0.25;"{% endif %}>
+			<a class="genres__item-link" href="{{ genre.get_absolute_url }}">{{ genre.title }}&nbsp;<span class="counter">({{ genre.genres.all|length }})</span></a>
+		</li>
+		{% endif %}
+		{% endfor %}
+	</ul>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,17 @@
+{% extends 'books/base.html' %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock title %}
+
+{% block content %}
+
+<div class="books-items">
+	{% for book in books %}
+	{% include 'books/include/book.html' %}
+	{% endfor %}
+</div>
+<div class="button-wrap">
+	<a href="{% url 'books_list' %}" class="btn">Все книги</a>
+</div>
+
+{% endblock content %}

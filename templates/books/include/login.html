@@ -1,0 +1,14 @@
+<div class="login">
+	{% if user.is_authenticated %}
+	<a href="{% url 'profile' %}" class="login__link {% if 'profile' in request.resolver_match.url_name %} active{% endif %}" title="Профиль">
+		<i class="fas fa-user"></i> <span>{{ user }}</span>
+	</a>
+	<a href="{% url 'account_logout' %}" class="login__link" title="Выйти">
+		<i class="fas fa-sign-out-alt"></i> <span>Выйти</span>
+	</a>
+	{% else %}
+	<a href="{% url 'account_login' %}" class="login__link" title="Войти">
+		<i class="fas fa-sign-in-alt"></i> <span>Войти</span>
+	</a>
+	{% endif %}
+</div>

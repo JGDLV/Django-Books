@@ -1,0 +1,37 @@
+{% if request.resolver_match.url_name != 'home' %}
+<div class="breadcrumbs">
+	<div class="container">
+		<ul class="breadcrumbs-items">
+			
+			<li class="breadcrumbs__item"><a href="{% url 'home' %}" class="breadcrumbs__link"><i class="fas fa-home"></i></a></li>
+
+			{% if request.resolver_match.url_name == 'books_detail' %}
+
+			<li class="breadcrumbs__item"><a href="{% url 'books_list' %}" class="breadcrumbs__link">Книги</a></li>
+			<li class="breadcrumbs__item">{{ book.title }}</li>
+
+			{% elif request.resolver_match.url_name == 'authors_detail' %}
+
+			<li class="breadcrumbs__item"><a href="{% url 'authors_list' %}" class="breadcrumbs__link">Авторы</a></li>
+			<li class="breadcrumbs__item">{{ author.first_name }} {{ author.last_name }}</li>
+
+			{% elif request.resolver_match.url_name == 'genres_detail' %}
+
+			<li class="breadcrumbs__item"><a href="{% url 'genres_list' %}" class="breadcrumbs__link">Жанры</a></li>
+			<li class="breadcrumbs__item">{{ genre.title }}</li>
+
+			{% elif request.resolver_match.url_name == 'profile_bookmarks' or request.resolver_match.url_name == 'profile_comments' %}
+
+			<li class="breadcrumbs__item"><a href="{% url 'profile' %}" class="breadcrumbs__link">Профиль пользователя</a></li>
+			<li class="breadcrumbs__item">{{ title }}</li>
+
+			{% else %}
+
+			<li class="breadcrumbs__item">{{ title }}</li>
+
+			{% endif %}
+
+		</ul>
+	</div>
+</div>
+{% endif %}

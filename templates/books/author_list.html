@@ -1,0 +1,26 @@
+{% extends 'books/base.html' %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock title %}
+
+{% block content %}
+
+<div class="authors">
+	<h1 class="authors__header">{{ title }}</h1>
+	
+	{% regroup object_list by first_letter as letter_list %}
+	<ul class="authors-items list">
+		{% for letter in letter_list %}
+		<div class="authors__group">
+			<p class="authors__group-letter">{{ letter.grouper }}</p>
+			{% for author in letter.list %}
+			<li class="authors__item">
+				<a class="authors__item-link" href="{{ author.get_absolute_url }}">{{ author }}&nbsp;<span class="counter">({{ author.authors.all|length }})</span></a>
+			</li>
+			{% endfor %}
+		</div>
+		{% endfor %}
+	</ul>
+</div>
+
+{% endblock content %}

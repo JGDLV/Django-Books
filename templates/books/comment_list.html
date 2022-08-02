@@ -1,0 +1,23 @@
+{% extends 'books/base.html' %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock title %}
+
+{% block content %}
+
+<div class="books">
+	<h1 class="books__header">{{ title }}</h1>
+	<div class="book-comments book-comments_profile">
+		{% for comment in object_list %}
+		<div class="book__comment">
+			{% if comment.moderation %}<div class="book__comment-moderation">Комментарий <br>на модерации</div>{% endif %}
+			<div class="book__comment-date">{{ comment.date }}</div>
+			<div class="book__comment-book"><a href="{{ comment.book.get_absolute_url }}">{{ comment.book }}</a></div>
+			<div class="book__comment-text">{{ comment.text }}</div>
+		</div>
+		{% endfor %}
+	</div>
+	{% include 'books/include/pagination.html' %}
+</div>
+
+{% endblock content %}

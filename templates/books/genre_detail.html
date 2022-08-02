@@ -1,0 +1,22 @@
+{% extends 'books/base.html' %}
+{% load static %}
+
+{% block title %}{{ genre.title }}{% endblock title %}
+
+{% block content %}
+
+<div class="genres">
+	<h1 class="genres__header">{{ genre.title }}</h1>
+	{% if object_list %}
+	<div class="books-items">
+		{% for book in object_list %}
+		{% include 'books/include/book.html' %}
+		{% endfor %}
+	</div>
+	{% include 'books/include/pagination.html' %}
+	{% else %}
+	{% include 'books/include/empty.html' %}
+	{% endif %}
+</div>
+
+{% endblock content %}
